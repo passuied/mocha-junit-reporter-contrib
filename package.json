@@ -1,6 +1,6 @@
 {
-  "name": "mocha-junit-reporter",
-  "version": "1.18.0",
+  "name": "mocha-junit-reporter-withtags",
+  "version": "1.19.0",
   "description": "A JUnit reporter for mocha.",
   "main": "index.js",
   "scripts": {
@@ -10,12 +10,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/michaelleeallen/mocha-junit-reporter"
+    "url": "https://github.com/passuied/mocha-junit-reporter-withtags"
   },
   "keywords": [
     "mocha",
     "junit",
-    "reporter"
+    "reporter",
+    "tags"
   ],
   "author": {
     "name": "Michael Allen",
