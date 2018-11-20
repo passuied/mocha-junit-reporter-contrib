@@ -1,16 +1,16 @@
 {
-  "name": "mocha-junit-reporter-withtags",
+  "name": "mocha-junit-reporter-contrib",
   "version": "1.19.0",
-  "description": "A JUnit reporter for mocha.",
+  "description": "A JUnit reporter for mocha. Includes additional contributions (tag support)",
   "main": "index.js",
   "scripts": {
     "lint": "./node_modules/.bin/eslint index.js test/*; exit 0",
-    "test": "MOCHA_FILE=test/mocha.xml node_modules/.bin/mocha test --reporter=spec",
-    "tdd": "MOCHA_FILE=test/mocha.xml node_modules/.bin/mocha test --reporter=min --watch"
+    "test": "node_modules/.bin/mocha test --reporter=spec mocha_file=test/mocha.xml",
+    "tdd": "node_modules/.bin/mocha test --reporter=min --watch mocha_file=test/mocha.xml"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/passuied/mocha-junit-reporter-withtags"
+    "url": "https://github.com/passuied/mocha-junit-reporter-contrib"
   },
   "keywords": [
     "mocha",

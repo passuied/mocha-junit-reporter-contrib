@@ -26,7 +26,7 @@ function configureDefaults(options) {
   options.suiteTitleSeparatedBy = options.suiteTitleSeparatedBy || options.suiteTitleSeparedBy || ' ';
   options.rootSuiteTitle = options.rootSuiteTitle || 'Root Suite';
   options.testsuitesTitle = options.testsuitesTitle || 'Mocha Tests';
-  options.tags = options.tags || [];
+  options.addTags = options.addTags || false;
 
   return options;
 }
@@ -100,12 +100,14 @@ function getTags(testTitle) {
 
   var result = {
     tags: {},
-    cleanTitle: testTitle
+    cleanTitle: testTitle,
+    tagsFound: false
   };
 
   var foundTags = testTitle.match(regexAllTags);
 
-  if (foundTags.length > 0) {
+  if (foundTags && foundTags.length > 0) {
+    result.tagsFound = true;
     foundTags.forEach((tag) => {
       var parts = tag.match(regexTag);
 
@@ -217,27 +219,29 @@ MochaJUnitReporter.prototype.getTestsuiteData = function (suite) {
  */
 MochaJUnitReporter.prototype.getTestcaseData = function (test, err) {
   var flipClassAndName = this._options.testCaseSwitchClassnameAndName;
-  var tagResult = getTags(test.title);
+  var name = stripAnsi(test.fullTitle());
 
-  var name = stripAnsi(tagResult.cleanTitle);
-  //change i made -- asam
-  //var getautomation_id = test.title.split("-");
+  var tagResult = null;
+  if (this._options.addTags) {
+    tagResult = getTags(test.title);
+    if (tagResult.tagsFound){
+      name = stripAnsi(tagResult.cleanTitle)
+    }
+  }
+
   var classname = stripAnsi(test.title)
   var config = {
     testcase: [{
       _attr: {
         name: flipClassAndName ? classname : name,
         time: (typeof test.duration === 'undefined') ? 0 : test.duration / 1000,
-        classname: flipClassAndName ? name : classname,
-        //change i made --asam
-        
+        classname: flipClassAndName ? name : classname
       }
     }]
   };
 
-  if (this._options.tags.length > 0){
-    const tags = this._options.tags;
-    tags.forEach(tagName => 
+  if (tagResult && tagResult.tags){
+    Object.keys(tagResult.tags).forEach(tagName => 
       {
         var tagValue = "";
         if (tagResult.tags[tagName]){
