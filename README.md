@@ -124,3 +124,4 @@ You can also configure the `testsuites.name` attribute by setting `reporterOptio
 | testCaseSwitchClassnameAndName | set to a truthy value to switch name and classname values |
 | rootSuiteTitle | the name for the root suite. (defaults to 'Root Suite') |
 | testsuitesTitle | the name for the `testsuites` tag (defaults to 'Mocha Tests') |
+| addTags | If set to true, will look in test.title for any tags using format @tagName=tagValue and will add them as attributes to the test result |

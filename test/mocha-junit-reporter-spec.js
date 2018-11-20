@@ -392,5 +392,23 @@ describe('mocha-junit-reporter', function() {
       expect(testCase.testcase[0]._attr.name).to.equal(mockedTestCase.title);
       expect(testCase.testcase[0]._attr.classname).to.equal(mockedTestCase.fullTitle());
     });
+
+    it('should generate attributes for addTags=true and tags in test title', () => {
+      var modTestCase = {...mockedTestCase};
+      modTestCase.title = "should behave like so @automationId=EPM-DP-C1234 @storyId=EPM-1234"
+      reporter = createReporter({mochaFile: 'test/mocha.xml', addTags: true});
+      var testCase = reporter.getTestcaseData(modTestCase);
+      expect(testCase.testcase[0]._attr.name).to.equal('should behave like so');
+      expect(testCase.testcase[0]._attr.automationId).to.equal('EPM-DP-C1234');
+      expect(testCase.testcase[0]._attr.storyId).to.equal('EPM-1234');
+
+    });
+
+    it('should still work for addTags=true and tags NOT in test title', () => {
+      reporter = createReporter({mochaFile: 'test/mocha.xml', addTags: true});
+      var testCase = reporter.getTestcaseData(mockedTestCase);
+      expect(testCase.testcase[0]._attr.name).to.equal(mockedTestCase.fullTitle());
+      expect(testCase.testcase[0]._attr.classname).to.equal(mockedTestCase.title);
+    });
   });
 });
